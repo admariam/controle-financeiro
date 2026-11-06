@@ -79,7 +79,7 @@ Instruções detalhadas, verificações e solução de problemas: [`supabase/REA
 
 | Variável | Obrigatória | Descrição |
 |---|---|---|
-| `VITE_SUPABASE_URL` | sim | URL do projeto Supabase |
+| `VITE_SUPABASE_URL` | sim | URL do projeto Supabase (sem `/rest/v1`) |
 | `VITE_SUPABASE_ANON_KEY` | sim | Chave pública (anon); protegida por RLS |
 | `VITE_SHARED_EMAIL` | sim | E-mail fixo do usuário compartilhado; nunca exibido na tela |
 | `VITE_BASE_PATH` | não | Caminho base do build (padrão `/`; no Pages, `/nome-do-repositorio/`) |

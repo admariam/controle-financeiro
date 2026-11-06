@@ -45,6 +45,8 @@ export function CashFlowPage() {
 
   const history = balance.history;
   const hasError = Boolean(expensesError || balanceError);
+  const expensesUnavailable =
+    expenses.length === 0 && (expensesLoading || Boolean(expensesError));
 
   return (
     <>
@@ -101,10 +103,6 @@ export function CashFlowPage() {
             )}
           </div>
 
-          <Button variant="secondary" onClick={() => setModalOpen(true)} disabled={!profile}>
-            <Wallet className="h-4 w-4" aria-hidden />
-            {balance.latest ? 'Registrar novo saldo' : 'Informar saldo'}
-          </Button>
         </div>
       </Card>
 
@@ -112,19 +110,23 @@ export function CashFlowPage() {
         <Card className="p-4">
           <p className="text-xs font-medium text-slate-500">Contas pendentes</p>
           <p className="mt-1.5 text-lg font-semibold tabular-nums text-amber-700 sm:text-xl">
-            {expensesLoading && expenses.length === 0 ? '—' : formatBRL(summary.pendingCents)}
+            {expensesUnavailable ? '—' : formatBRL(summary.pendingCents)}
           </p>
           <p className="mt-1 text-[11px] text-slate-400">
-            {summary.pendingCount} conta(s) · {summary.overdueCount} vencida(s)
+            {expensesUnavailable
+              ? 'Carregando contas…'
+              : `${summary.pendingCount} conta(s) · ${summary.overdueCount} vencida(s)`}
           </p>
         </Card>
 
         <Card className="p-4">
           <p className="text-xs font-medium text-slate-500">Contas pagas</p>
           <p className="mt-1.5 text-lg font-semibold tabular-nums text-emerald-700 sm:text-xl">
-            {expensesLoading && expenses.length === 0 ? '—' : formatBRL(summary.paidCents)}
+            {expensesUnavailable ? '—' : formatBRL(summary.paidCents)}
           </p>
-          <p className="mt-1 text-[11px] text-slate-400">{summary.paidCount} conta(s) paga(s)</p>
+          <p className="mt-1 text-[11px] text-slate-400">
+            {expensesUnavailable ? 'Carregando contas…' : `${summary.paidCount} conta(s) paga(s)`}
+          </p>
         </Card>
 
         <Card className="p-4">
@@ -139,9 +141,11 @@ export function CashFlowPage() {
                   : 'text-emerald-700',
             )}
           >
-            {projected === null ? '—' : formatBRL(projected)}
+            {expensesUnavailable || projected === null ? '—' : formatBRL(projected)}
           </p>
-          <p className="mt-1 text-[11px] text-slate-400">Após as contas pendentes do mês</p>
+          <p className="mt-1 text-[11px] text-slate-400">
+            {expensesUnavailable ? 'Carregando contas…' : 'Após as contas pendentes do mês'}
+          </p>
         </Card>
       </div>
 

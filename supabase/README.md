@@ -58,7 +58,7 @@ Assim, mesmo que alguém descubra o e-mail configurado, não consegue criar uma 
 
 1. Vá em **Project Settings** → **API** (ou **Data API**).
 2. Copie:
-   - **Project URL** → `VITE_SUPABASE_URL`
+   - **Project URL** → `VITE_SUPABASE_URL` (a URL base, sem `/rest/v1` no final)
    - **anon / public key** → `VITE_SUPABASE_ANON_KEY`
 3. **Nunca copie a `service_role` para o frontend.**
 

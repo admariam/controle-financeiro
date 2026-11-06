@@ -5,6 +5,11 @@ import { FullPageSpinner } from '../components/ui/Spinner';
 import { useProfile } from './ProfileProvider';
 import { useSession } from './SessionProvider';
 
+const avatarTones = [
+  'bg-emerald-50 text-emerald-700 ring-emerald-200',
+  'bg-sky-50 text-sky-700 ring-sky-200',
+];
+
 export function ProfileSelectPage() {
   const { profiles, profile, loading, error, selectProfile, refreshProfiles } = useProfile();
   const { signOut } = useSession();
@@ -68,7 +73,7 @@ export function ProfileSelectPage() {
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3">
-            {profiles.map((item) => {
+            {profiles.map((item, index) => {
               const selected = item.id === profile?.id;
               return (
                 <button
@@ -81,7 +86,11 @@ export function ProfileSelectPage() {
                       : 'border-slate-200 hover:border-emerald-300'
                   }`}
                 >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 text-lg font-semibold text-emerald-700">
+                  <span
+                    className={`flex h-12 w-12 items-center justify-center rounded-full text-lg font-semibold ring-1 ${
+                      avatarTones[index % avatarTones.length]
+                    }`}
+                  >
                     {item.name.slice(0, 1).toUpperCase()}
                   </span>
                   <span className="text-sm font-medium text-slate-900">{item.name}</span>

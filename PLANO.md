@@ -1,7 +1,7 @@
 # Plano de Desenvolvimento — Controle Financeiro
 
-> **Status: aguardando aprovação.** Nenhum código de aplicação foi criado.
-> Este documento é a entrega da etapa de planejamento exigida no item 2 do briefing.
+> **Status: plano aprovado e implementado.** Mantido como registro das decisões.
+> As etapas 1 a 8 foram executadas conforme este documento; o passo a passo de uso está no [`README.md`](./README.md).
 > **Data:** 06/11/2026
 
 ---

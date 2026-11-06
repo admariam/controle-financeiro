@@ -229,7 +229,8 @@ export async function createRecurrence(
 
   if (error) describeError(error);
 
-  await generateRecurringExpenses(input.start_month, input.start_month);
+  const startMonthKey = input.start_month.slice(0, 7);
+  await generateRecurringExpenses(startMonthKey, startMonthKey);
   return data as ExpenseRecurrence;
 }
 

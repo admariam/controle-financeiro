@@ -33,7 +33,8 @@ import type { Expense } from '../types/db';
 type ReportTab = 'expenses' | 'paid' | 'pending' | 'overdue' | 'history';
 
 function shortMonth(key: string): string {
-  return monthShortLabel(key).replace(/\/(\d{2})\d{2}$/, '/$1');
+  const [name, year] = monthShortLabel(key).split('/');
+  return `${name}/${year.slice(-2)}`;
 }
 
 function ChartEmpty({ message }: { message: string }) {

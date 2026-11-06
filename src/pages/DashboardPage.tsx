@@ -16,7 +16,6 @@ import { Button } from '../components/ui/Button';
 import { Card, CardHeader } from '../components/ui/Card';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Spinner } from '../components/ui/Spinner';
-import { useDataRefresh } from '../data/DataRefreshProvider';
 import { useMonth } from '../data/MonthProvider';
 import { useBalance, useCategories, useMonthExpenses } from '../data/useData';
 import {
@@ -71,7 +70,6 @@ function KpiCard({ label, value, hint, tone = 'neutral', icon: Icon }: KpiCardPr
 export function DashboardPage() {
   const { month } = useMonth();
   const navigate = useNavigate();
-  const { refresh } = useDataRefresh();
 
   const {
     data: expenses,
@@ -89,6 +87,8 @@ export function DashboardPage() {
 
   const summary = useMemo(() => summarize(expenses), [expenses]);
   const projected = projectedBalance(balance.latest?.amount_cents ?? null, summary.pendingCents);
+  const expensesUnavailable =
+    expenses.length === 0 && (expensesLoading || Boolean(expensesError));
 
   const pending = useMemo(
     () =>
@@ -125,15 +125,7 @@ export function DashboardPage() {
       <PageHeader
         title="Início"
         description={`Resumo de ${monthLabel(month)}.`}
-        actions={
-          <>
-            <MonthPicker />
-            <Button onClick={refresh} variant="secondary" size="sm" className="hidden sm:inline-flex">
-              <RefreshCw className="h-3.5 w-3.5" aria-hidden />
-              Atualizar
-            </Button>
-          </>
-        }
+        actions={<MonthPicker />}
       />
 
       {hasError ? (
@@ -167,28 +159,36 @@ export function DashboardPage() {
         />
         <KpiCard
           label="Contas pendentes"
-          value={expensesLoading && expenses.length === 0 ? '—' : formatBRL(summary.pendingCents)}
-          hint={`${summary.pendingCount} ${summary.pendingCount === 1 ? 'conta' : 'contas'} · ${summary.overdueCount} vencida(s)`}
+          value={expensesUnavailable ? '—' : formatBRL(summary.pendingCents)}
+          hint={
+            expensesUnavailable
+              ? 'Carregando contas…'
+              : `${summary.pendingCount} ${summary.pendingCount === 1 ? 'conta' : 'contas'} · ${summary.overdueCount} vencida(s)`
+          }
           icon={Clock}
           tone="warning"
         />
         <KpiCard
           label="Contas pagas"
-          value={expensesLoading && expenses.length === 0 ? '—' : formatBRL(summary.paidCents)}
-          hint={`${summary.paidCount} ${summary.paidCount === 1 ? 'conta paga' : 'contas pagas'} no mês`}
+          value={expensesUnavailable ? '—' : formatBRL(summary.paidCents)}
+          hint={
+            expensesUnavailable
+              ? 'Carregando contas…'
+              : `${summary.paidCount} ${summary.paidCount === 1 ? 'conta paga' : 'contas pagas'} no mês`
+          }
           icon={CircleCheck}
           tone="success"
         />
         <KpiCard
           label="Saldo projetado"
-          value={
-            projected === null
-              ? '—'
-              : expensesLoading && expenses.length === 0
-                ? '—'
-                : formatBRL(projected)
+          value={projected === null || expensesUnavailable ? '—' : formatBRL(projected)}
+          hint={
+            expensesUnavailable
+              ? 'Carregando contas…'
+              : projected === null
+                ? 'Informe o saldo no Fluxo financeiro'
+                : 'Após as contas pendentes'
           }
-          hint={projected === null ? 'Informe o saldo no Fluxo financeiro' : 'Após as contas pendentes'}
           icon={TrendingUp}
           tone={projected !== null && projected < 0 ? 'danger' : 'success'}
         />

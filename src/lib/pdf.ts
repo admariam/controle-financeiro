@@ -230,21 +230,24 @@ export function createMonthlyReportPdf(input: ReportPdfInput): jsPDF {
     a.due_date.localeCompare(b.due_date),
   );
 
-  const body = sortedExpenses.map((expense) => {
-    const status = expense.paid_at
-      ? `Paga em ${formatTimestampDate(expense.paid_at)}`
-      : expenseTiming(expense) === 'overdue'
-        ? 'Vencida'
-        : 'Pendente';
+  const body =
+    sortedExpenses.length === 0
+      ? [['Nenhuma despesa no mês', '—', '—', '—', formatBRL(0)]]
+      : sortedExpenses.map((expense) => {
+          const status = expense.paid_at
+            ? `Paga em ${formatTimestampDate(expense.paid_at)}`
+            : expenseTiming(expense) === 'overdue'
+              ? 'Vencida'
+              : 'Pendente';
 
-    return [
-      expense.name,
-      categoryName.get(expense.category_id) ?? '—',
-      formatDate(expense.due_date),
-      status,
-      formatBRL(expense.amount_cents),
-    ];
-  });
+          return [
+            expense.name,
+            categoryName.get(expense.category_id) ?? '—',
+            formatDate(expense.due_date),
+            status,
+            formatBRL(expense.amount_cents),
+          ];
+        });
 
   let tableStart = cursor + 4;
   if (tableStart > 240) {

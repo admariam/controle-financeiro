@@ -72,6 +72,8 @@ export function ExpensesPage() {
   const [deleting, setDeleting] = useState(false);
 
   const summary = useMemo(() => summarize(expenses), [expenses]);
+  const summaryUnavailable =
+    expenses.length === 0 && (expensesLoading || Boolean(expensesError));
 
   const counts = useMemo(
     () => ({
@@ -206,19 +208,19 @@ export function ExpensesPage() {
         <div className="px-4 py-3">
           <p className="text-[11px] text-slate-500">Total do mês</p>
           <p className="mt-0.5 text-base font-semibold tabular-nums text-slate-900 sm:text-lg">
-            {formatBRL(summary.totalCents)}
+            {summaryUnavailable ? '—' : formatBRL(summary.totalCents)}
           </p>
         </div>
         <div className="px-4 py-3">
           <p className="text-[11px] text-slate-500">Pago</p>
           <p className="mt-0.5 text-base font-semibold tabular-nums text-emerald-700 sm:text-lg">
-            {formatBRL(summary.paidCents)}
+            {summaryUnavailable ? '—' : formatBRL(summary.paidCents)}
           </p>
         </div>
         <div className="px-4 py-3">
           <p className="text-[11px] text-slate-500">Pendente</p>
           <p className="mt-0.5 text-base font-semibold tabular-nums text-amber-700 sm:text-lg">
-            {formatBRL(summary.pendingCents)}
+            {summaryUnavailable ? '—' : formatBRL(summary.pendingCents)}
           </p>
         </div>
       </Card>
