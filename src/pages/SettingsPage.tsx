@@ -226,7 +226,7 @@ export function SettingsPage() {
               <EmptyState
                 icon={Users}
                 title="Perfis não encontrados"
-                description="Verifique se o banco foi configurado com os perfis Esposo e Esposa."
+                description="Verifique se o banco foi configurado com os perfis Marcio e Renata."
               />
             </div>
           ) : (

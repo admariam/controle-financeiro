@@ -1,13 +1,13 @@
 # Controle Financeiro
 
-Sistema web para controle das despesas mensais de duas pessoas (**Esposo** e **Esposa**), com um único acesso compartilhado por senha, banco de dados Supabase e publicação no GitHub Pages.
+Sistema web para controle das despesas mensais de duas pessoas (**Marcio** e **Renata**), com um único acesso compartilhado por senha, banco de dados Supabase e publicação no GitHub Pages.
 
 O projeto foi desenvolvido a partir do plano em [`PLANO.md`](./PLANO.md).
 
 ## Funcionalidades
 
 - Login com uma única senha e um e-mail fixo configurado por variável de ambiente.
-- Seleção do perfil **Esposo** ou **Esposa** após o login; os dois compartilham os mesmos dados.
+- Seleção do perfil **Marcio** ou **Renata** após o login; os dois compartilham os mesmos dados e cada conta cadastrada registra quem a lançou.
 - Início com saldo disponível, contas pendentes, contas pagas, saldo projetado e próximos vencimentos.
 - Cadastro de contas esporádicas e fixas (recorrências), com categorias, perfil responsável e observação.
 - Geração automática dos meses seguintes, sem cron e sem duplicar lançamentos.

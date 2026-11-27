@@ -20,7 +20,7 @@ Ele cria:
 
 | Tabela | Conteúdo |
 |---|---|
-| `profiles` | Esposo e Esposa, com UUIDs fixos |
+| `profiles` | Marcio e Renata, com UUIDs fixos |
 | `categories` | Moradia, Alimentação, Água, Energia, Gás, Internet, Transporte, Saúde, Educação, Lazer, Empréstimos, Outros |
 | `expense_recurrences` | Modelos das contas fixas |
 | `expenses` | Lançamentos de cada mês |
@@ -34,7 +34,7 @@ Também cria índices, gatilhos de `updated_at`, políticas RLS, permissões e a
 
 ## 3. Criar o único usuário de acesso
 
-O sistema usa **um único acesso compartilhado**. Não crie contas para Esposo e Esposa: os dois perfis existem apenas na tabela `profiles` e compartilham a mesma sessão.
+O sistema usa **um único acesso compartilhado**. Não crie contas para Marcio e Renata: os dois perfis existem apenas na tabela `profiles` e compartilham a mesma sessão.
 
 1. Vá em **Authentication** → **Users**.
 2. Clique em **Add user** → **Create new user**.

@@ -21,7 +21,7 @@ end;
 $$;
 
 -- ----------------------------------------------------------------------------
--- profiles — exatamente dois perfis da família (não são contas de login)
+-- profiles — os dois perfis da casa, Marcio e Renata (não são contas de login)
 -- ----------------------------------------------------------------------------
 create table if not exists public.profiles (
   id uuid primary key default gen_random_uuid(),
@@ -32,8 +32,8 @@ create table if not exists public.profiles (
 
 insert into public.profiles (id, name)
 values
-  ('00000000-0000-0000-0000-000000000001', 'Esposo'),
-  ('00000000-0000-0000-0000-000000000002', 'Esposa')
+  ('00000000-0000-0000-0000-000000000001', 'Marcio'),
+  ('00000000-0000-0000-0000-000000000002', 'Renata')
 on conflict (id) do nothing;
 
 -- ----------------------------------------------------------------------------
