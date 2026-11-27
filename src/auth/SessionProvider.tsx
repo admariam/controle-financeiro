@@ -37,8 +37,15 @@ function translateAuthError(message: string, status?: number): string {
     return 'Usuário ainda não confirmado. Verifique a configuração do Supabase.';
   }
 
-  if (/failed to fetch|network/i.test(message)) {
-    return 'Não foi possível conectar. Verifique sua internet.';
+  if (/failed to fetch|network|load failed/i.test(message) || status === 0) {
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+      return 'Você está sem internet. Verifique a conexão e tente novamente.';
+    }
+    return 'O servidor do sistema não respondeu. Ele pode estar pausado ou fora do ar; tente novamente em alguns minutos.';
+  }
+
+  if (typeof status === 'number' && status >= 500) {
+    return 'O servidor do sistema está com problema no momento. Tente novamente em alguns minutos.';
   }
 
   return 'Não foi possível entrar. Tente novamente.';
