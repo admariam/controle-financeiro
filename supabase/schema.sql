@@ -408,6 +408,21 @@ revoke all on function public.delete_recurrence(uuid, date) from anon;
 grant execute on function public.delete_recurrence(uuid, date) to authenticated;
 
 -- ----------------------------------------------------------------------------
+-- Manter o projeto ativo (plano gratuito pausa após 7 dias sem uso)
+-- Chamada pelo workflow .github/workflows/keep-alive.yml.
+-- Não lê nem expõe nenhum dado: só confirma que o banco respondeu.
+-- ----------------------------------------------------------------------------
+create or replace function public.keep_alive()
+returns timestamptz
+language sql
+stable
+set search_path = ''
+as $$ select now() $$;
+
+revoke all on function public.keep_alive() from PUBLIC;
+grant execute on function public.keep_alive() to anon, authenticated;
+
+-- ----------------------------------------------------------------------------
 -- Realtime (idempotente)
 -- ----------------------------------------------------------------------------
 do $$

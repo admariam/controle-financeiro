@@ -128,3 +128,14 @@ O e-mail fixo e a chave `anon` ficam no bundle do frontend, como é normal em ap
 | Dados não atualizam em outro aparelho | Realtime desabilitado no projeto ou tabelas fora da publicação `supabase_realtime` |
 | Erro ao gerar PDF | dados do mês ainda não carregados; aguarde a tela terminar de carregar |
 | Categorias duplicadas | o script de seed só roda quando a tabela está vazia; limpe categorias extras manualmente |
+| Login diz que o servidor não respondeu | projeto pausado por inatividade (plano gratuito); no painel, abra o projeto e clique em **Resume project** |
+
+## 10. Evitar a pausa por inatividade
+
+No plano gratuito, o Supabase pausa o projeto depois de 7 dias sem uso. O workflow `.github/workflows/keep-alive.yml` chama o banco a cada 3 dias usando os mesmos secrets do deploy (`VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`).
+
+Em projeto já existente, rode uma vez no **SQL Editor** o arquivo [`migrations/2026-11-27_keep_alive.sql`](./migrations/2026-11-27_keep_alive.sql). Ele cria a função `keep_alive()`, que só devolve a hora do servidor e não toca em nenhum dado. Projetos novos já recebem a função pelo `schema.sql`.
+
+Para testar na hora: GitHub → **Actions** → **Manter Supabase ativo** → **Run workflow**. Se o projeto estiver pausado, a execução falha e o GitHub avisa por e-mail.
+
+O GitHub desativa rotinas agendadas em repositórios sem nenhum commit por 60 dias. Se isso acontecer, ele avisa por e-mail; basta reativar em **Actions**.
